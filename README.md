@@ -17,3 +17,7 @@
 
 `docker ps`\
 `docker exec -it <container_id> bash`
+
+## Solution
+
+PoC script is available in `/solution`. Works for the running CTF challenge
