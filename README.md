@@ -1,4 +1,4 @@
-# Meme Upload Service ( Pre-Approval Version )
+# Meme Upload Service ( Original Version )
 
 - Created 10.04.2021
 - William Moody
